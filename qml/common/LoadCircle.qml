@@ -2,15 +2,13 @@ import QtQuick 2.0
 import QtQuick.Controls.Material 2.0
 
 Item {
-
+	id: loadCircle;
 	property color circleColor: "transparent"
 	property color unprogressBorderColor:  Material.color(Material.LightBlue, Material.Shade50);
 	property color progressBorderColor: Material.color(Material.Dark, Material.Shade500);
 	property int borderWidth: 4;
 
-	property int value: 0;
-	property int to: 100;
-	property int from: 0;
+	property int duration: 100;
 
 	Rectangle {
 		id: circle;
@@ -27,7 +25,7 @@ Item {
 
 	Rectangle {
 		anchors.centerIn: circle;
-		rotation: 360 * (value / interval()) - 90;
+		rotation: 270;
 		transformOrigin: Item.Left;
 
 		Rectangle {
@@ -42,23 +40,49 @@ Item {
 		}
 	}
 
+	ParallelAnimation {
+		id: animation;
+		PropertyAnimation {
+			target: dot.parent;
+			property: "rotation";
+			to: -90;
+			duration: loadCircle.duration;
+		}
+		SequentialAnimation {
+			PropertyAnimation{
+				target: leftCircleSide;
+				property: "rotation";
+				to: 0;
+				duration: loadCircle.duration / 2;
+			}
+			PropertyAnimation {
+				target: rightCircleSide;
+				property: "rotation";
+				to:0;
+				duration: loadCircle.duration / 2;
+			}
+		}
+
+		onRunningChanged: {
+			if (!running) {
+				dot.parent.rotation = 270;
+				leftCircleSide.rotation = 180;
+				rightCircleSide.rotation = 180;
+			}
+		}
+	}
+
 	Item {
 		width: parent.width / 2;
 		height: parent.height;
 		clip: true;
 
 		Item {
+			id: leftCircleSide
 			width: parent.width;
 			height: parent.height;
 			clip: true;
-			rotation: {
-				if (value * 2 >= interval())
-					360 * (value / interval()) - 180;
-				else if (value != 0)
-					0;
-				else
-					180;
-			}
+			rotation: 180;
 			transformOrigin: Item.Right;
 
 			Rectangle{
@@ -81,15 +105,11 @@ Item {
 		x: width;
 
 		Item {
+			id: rightCircleSide
 			width: parent.width;
 			height: parent.height;
 			clip: true;
-			rotation: {
-				if (value * 2 <= interval())
-					360 * (value / interval());
-				else
-					180;
-			}
+			rotation: 180;
 			transformOrigin: Item.Left;
 
 			Rectangle{
@@ -106,7 +126,9 @@ Item {
 		}
 	}
 
-	function interval() {
-		return to - from;
+	function start(_duration) {
+		animation.stop();
+		duration = _duration;
+		animation.start();
 	}
 }

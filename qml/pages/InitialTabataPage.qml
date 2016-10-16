@@ -75,8 +75,7 @@ Pane {
 			color: startButton.down ? Material.color(Material.Dark, Material.Shade300) :
 									  Material.color(Material.Dark, Material.Shade400)
 			onClicked: {
-				console.log("click")
-				window.tabataRun();
+				appWindow.tabataRun();
 			}
 		}
 

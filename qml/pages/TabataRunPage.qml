@@ -9,11 +9,9 @@ Page {
 
 	objectName: qsTr("Work")
 
-	property int intervalMilliseconds: 0;
 	property int timeMilliseconds: 0; /// In milliseconds
 	property int cycleCount: 0;
 
-	property int defaultCycleCount: 8;
 	property int tabatasCount: 1;
 	property int tabataRelaxTime: 0; /// In seconds
 
@@ -33,7 +31,7 @@ Page {
 
 	Timer {
 		id: timer
-		interval: 20;
+		interval: 1000;
 		running: false;
 		repeat: true;
 		onTriggered: {
@@ -41,7 +39,7 @@ Page {
 			if (timeMilliseconds <= 0)
 			{
 				state = stateNames[stateNames.indexOf(state) + 1];
-				intervalMilliseconds = timeMilliseconds;
+				progressBar.start(timeMilliseconds);
 				console.log(Qt.formatDateTime(new Date(), "mm:ss:zzz"));
 			}
 		}
@@ -52,7 +50,7 @@ Page {
 
 		Label {
 			id: stateLabel
-			font.pointSize: 30
+			font.pointSize: fontSizeHeadline
 			Layout.alignment: Qt.AlignCenter
 			anchors.bottom: timeLabel.top;
 			anchors.top: parent.top
@@ -61,20 +59,18 @@ Page {
 		Item {
 			id: timeLabel
 			anchors.centerIn: parent
-			width: Math.min(window.width, window.height) / 2;
+			width: Math.min(appWindow.width, appWindow.height) / 2;
 			height: width;
 
 			Label {
 				anchors.centerIn: parent;
-				text: ("%1").arg(Math.round((timeMilliseconds + 499) / 1000))
-				font.pointSize: 80
+				text: timeMilliseconds / 1000;
+				font.pointSize: 80;
 			}
 
 			LoadCircle {
+				id: progressBar
 				anchors.fill: parent;
-				from: 0;
-				to: intervalMilliseconds;
-				value: timeMilliseconds;
 			}
 		}
 	}
@@ -90,12 +86,11 @@ Page {
 			StateChangeScript {
 				id: preparationChangeScript
 				script: {
-					defaultCycleCount = settings.workTime * 2;
-					tabatasCount = settings.tabatasCount
-					tabataRelaxTime = settings.tabataRelaxTime
+					tabatasCount = settings.tabatasCount;
+					tabataRelaxTime = settings.tabataRelaxTime;
 
 					timeMilliseconds = cycleRelaxTime * 1000;
-					intervalMilliseconds = timeMilliseconds
+					progressBar.start(timeMilliseconds);
 				}
 			}
 			PropertyChanges {
@@ -113,7 +108,7 @@ Page {
 				id: tabataBeginChangeScript
 				script: {
 					tabatasCount = tabatasCount - 1;
-					cycleCount = defaultCycleCount;
+					cycleCount = settings.workTime * 2;
 				}
 			}
 
@@ -153,10 +148,7 @@ Page {
 		State {
 			name: "cycle_end";
 			onCompleted: {
-				if (cycleCount <= 0)
-					state = "tabata_relax";
-				else
-					state = "cycle_begin"
+					state = cycleCount <= 0 ? "tabata_relax" : "cycle_begin";
 			}
 		},
 		State {
@@ -182,10 +174,7 @@ Page {
 			name: "tabata_end";
 
 			onCompleted: {
-				if (tabatasCount <= 0)
-					state = "end";
-				else
-					state = "tabata_begin"
+					state = tabatasCount <= 0 ? "end" : "tabata_begin";
 			}
 		},
 		State {

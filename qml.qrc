@@ -1,10 +1,10 @@
 <RCC>
     <qresource prefix="/">
 	<file>qml/main.qml</file>
-        <file>qml/Header.qml</file>
+	<file>qml/TitleBar.qml</file>
         <file>qml/common/RoundColoredButton.qml</file>
         <file>qml/common/LayoutStretch.qml</file>
-        <file>qml/TabataDrawer.qml</file>
+	<file>qml/DrawerNavigationBar.qml</file>
         <file>qml/pages/TabataRunPage.qml</file>
         <file>qml/common/LoadCircle.qml</file>
         <file>qml/common/TabataSpinBox.qml</file>

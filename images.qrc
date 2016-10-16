@@ -1,22 +1,45 @@
 <RCC>
     <qresource prefix="/">
-	<file>images/drawer.png</file>
-	<file>images/drawer@2x.png</file>
-	<file>images/drawer@3x.png</file>
-	<file>images/drawer@4x.png</file>
-	<file>images/menu.png</file>
-	<file>images/menu@2x.png</file>
-	<file>images/menu@3x.png</file>
-	<file>images/menu@4x.png</file>
+	<file>images/darkTheme/drawer.png</file>
+	<file>images/darkTheme/drawer@2x.png</file>
+	<file>images/darkTheme/drawer@3x.png</file>
+	<file>images/darkTheme/drawer@4x.png</file>
+	<file>images/darkTheme/menu.png</file>
+	<file>images/darkTheme/menu@2x.png</file>
+	<file>images/darkTheme/menu@3x.png</file>
+	<file>images/darkTheme/menu@4x.png</file>
+	<file>images/darkTheme/info.png</file>
+	<file>images/darkTheme/info@2x.png</file>
+	<file>images/darkTheme/info@3x.png</file>
+	<file>images/darkTheme/info@4x.png</file>
+	<file>images/darkTheme/info@5x.png</file>
+	<file>images/darkTheme/arrow_back.png</file>
+	<file>images/darkTheme/arrow_back@2x.png</file>
+	<file>images/darkTheme/arrow_back@3x.png</file>
+	<file>images/darkTheme/arrow_back@4x.png</file>
+
+	<file>images/lightTheme/drawer.png</file>
+	<file>images/lightTheme/drawer@2x.png</file>
+	<file>images/lightTheme/drawer@3x.png</file>
+	<file>images/lightTheme/drawer@4x.png</file>
+	<file>images/lightTheme/menu.png</file>
+	<file>images/lightTheme/menu@2x.png</file>
+	<file>images/lightTheme/menu@3x.png</file>
+	<file>images/lightTheme/menu@4x.png</file>
+	<file>images/lightTheme/info.png</file>
+	<file>images/lightTheme/info@2x.png</file>
+	<file>images/lightTheme/info@3x.png</file>
+	<file>images/lightTheme/info@4x.png</file>
+	<file>images/lightTheme/info@5x.png</file>
+	<file>images/lightTheme/arrow_back.png</file>
+	<file>images/lightTheme/arrow_back@2x.png</file>
+	<file>images/lightTheme/arrow_back@3x.png</file>
+	<file>images/lightTheme/arrow_back@4x.png</file>
+
 	<file>images/play.png</file>
 	<file>images/play@2x.png</file>
 	<file>images/play@3x.png</file>
 	<file>images/play@4x.png</file>
 	<file>images/play@5x.png</file>
-	<file>images/info.png</file>
-	<file>images/info@2x.png</file>
-	<file>images/info@3x.png</file>
-	<file>images/info@4x.png</file>
-	<file>images/info@5x.png</file>
     </qresource>
 </RCC>

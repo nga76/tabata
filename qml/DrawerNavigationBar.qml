@@ -3,8 +3,8 @@ import QtQuick.Controls 2.0
 
 Drawer {
 	id: drawer
-	width: Math.min(window.width, window.height) / 3 * 2
-	height: window.height
+	width: Math.min(appWindow.width, appWindow.height) / 3 * 2
+	height: appWindow.height
 
 	ListView {
 		id: listView
@@ -13,12 +13,12 @@ Drawer {
 
 		delegate: ItemDelegate {
 			width: parent.width
-			text: model.title
+			text: qsTr(model.title)
 			highlighted: ListView.isCurrentItem
 			onClicked: {
 				if (listView.currentIndex != index) {
 					listView.currentIndex = index;
-					window.openPage(model.source);
+					appWindow.openPage(model.source);
 				}
 				drawer.close()
 			}

@@ -56,15 +56,15 @@ Page {
 					anchors.verticalCenter: parent.verticalCenter
 					text: model.title
 				}
-			} // end Row
+			}
 			MouseArea {
 				anchors.fill: parent
 				onClicked: {
 					appWindow.switchAccentPalette(index)
-					navPane.popOnePage()
+					appWindow.popOnePage()
 				}
-			} // mouse
-		} // end delegateItem
+			}
+		}
 
 		model: ListModel {
 			ListElement { title: qsTr("Material Red"); bg: "#F44336" }
@@ -88,18 +88,6 @@ Page {
 			ListElement { title: qsTr("Material BlueGrey"); bg: "#607D8B" }
 		}
 		ScrollIndicator.vertical: ScrollIndicator { }
-	} // end listView
-
-	Component.onDestruction: {
-		cleanup()
 	}
 
-	// called immediately after Loader.loaded
-	function init() {
-		console.log("Init AccentColorPage")
-	}
-	// called from Component.destruction
-	function cleanup() {
-		console.log("Cleanup AccentColorPage")
-	}
-} // end accentPage
+}

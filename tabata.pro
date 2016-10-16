@@ -2,7 +2,8 @@ QT += qml quick quickcontrols2
 
 CONFIG += c++11
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    application.cpp
 
 RESOURCES += qml.qrc \
     images.qrc \
@@ -25,3 +26,6 @@ lupdate_only {
 }
 
 TRANSLATIONS += translations/tabata_ru_RU.ts
+
+HEADERS += \
+    application.h
