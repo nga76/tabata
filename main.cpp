@@ -20,7 +20,6 @@ int main(int argc, char* argv[])
 	QGuiApplication app(argc, argv);
 	QQuickStyle::setStyle("material");
 
-	QLocale::setDefault(QLocale(QLocale::Russian, QLocale::Russia));
 	QTranslator translator;
 	if (translator.load(QLocale(), QLatin1String("tabata"), QLatin1String("_"),
 			QLatin1String(":/translations"))) {

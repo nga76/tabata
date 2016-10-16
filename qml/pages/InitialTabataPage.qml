@@ -24,7 +24,7 @@ Pane {
 			id: workTimeLabel;
 			text: qsTr("Duration, min");
 			Layout.alignment: Qt.AlignCenter;
-			font.pixelSize: fontSizeTitle
+			font.pointSize: fontSizeTitle
 		}
 
 		TabataSpinBox {
@@ -39,7 +39,7 @@ Pane {
 			id: tabatsCountLabel;
 			text: qsTr("Tabata count");
 			Layout.alignment: Qt.AlignCenter;
-			font.pixelSize: fontSizeTitle
+			font.pointSize: fontSizeTitle
 		}
 
 		TabataSpinBox {
@@ -54,7 +54,7 @@ Pane {
 			id: relaxTimeLabel;
 			text: qsTr("Relax, min");
 			Layout.alignment: Qt.AlignCenter;
-			font.pixelSize: fontSizeTitle
+			font.pointSize: fontSizeTitle
 		}
 
 		TabataSpinBox {

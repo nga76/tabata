@@ -7,7 +7,7 @@ import "../common"
 
 Page {
 
-	objectName: qsTr("Work")
+	objectName: qsTr("Work");
 
 	property int timeMilliseconds: 0; /// In milliseconds
 	property int cycleCount: 0;
@@ -40,8 +40,10 @@ Page {
 			{
 				state = stateNames[stateNames.indexOf(state) + 1];
 				progressBar.start(timeMilliseconds);
-				console.log(Qt.formatDateTime(new Date(), "mm:ss:zzz"));
+				asdasd.stop();
+				asdasd.start();
 			}
+			console.log(Qt.formatDateTime(new Date(), "mm:ss:zzz"));
 		}
 	}
 
@@ -63,8 +65,9 @@ Page {
 			height: width;
 
 			Label {
+				id:aaaa;
 				anchors.centerIn: parent;
-				text: timeMilliseconds / 1000;
+				text: Math.round(timeMilliseconds / 1000);
 				font.pointSize: 80;
 			}
 
@@ -91,6 +94,7 @@ Page {
 
 					timeMilliseconds = cycleRelaxTime * 1000;
 					progressBar.start(timeMilliseconds);
+					asdasd.start();
 				}
 			}
 			PropertyChanges {
