@@ -1,4 +1,5 @@
 #include "tabatastate.h"
+#include <QQmlEngine>
 
 void TabataState::init()
 {

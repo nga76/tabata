@@ -17,16 +17,24 @@ Drawer {
 			highlighted: ListView.isCurrentItem
 			onClicked: {
 				if (listView.currentIndex != index) {
-					listView.currentIndex = index
+					listView.currentIndex = index;
+					window.openPage(model.source);
 				}
 				drawer.close()
 			}
 		}
 
 		model: ListModel {
-			ListElement { title: "Element1"; }
+			id: listModel
+			ListElement { title: qsTr("Settings"); source: "qrc:/SettingsPage.qml" }
 		}
 
 		ScrollIndicator.vertical: ScrollIndicator { }
+	}
+
+	function unselectPage (pageName) {
+		if (listView.currentIndex != -1 && listModel.get(listView.currentIndex).title === pageName) {
+			listView.currentIndex = -1;
+		}
 	}
 }

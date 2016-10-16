@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.0
 import QtQuick.Controls.Material 2.0
 
 ToolBar {
+	property string titleValue: qsTr("Tabata")
 	RowLayout {
 		spacing: 20
 		anchors.fill: parent
@@ -20,8 +21,8 @@ ToolBar {
 
 		Label {
 			id: titleLabel
-			text: "Табата"
-			font.pointSize: 20
+			text: titleValue
+			font.pointSize: fontSizeTitle
 			elide: Label.ElideRight
 			horizontalAlignment: Qt.AlignHCenter
 			verticalAlignment: Qt.AlignVCenter

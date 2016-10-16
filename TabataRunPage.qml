@@ -2,161 +2,200 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Material 2.0
-import Qt.labs.settings 1.0
 
-import TabataStateModule 1.0
+Page {
 
-Pane {
+	objectName: qsTr("Work")
 
-	Settings {
-		id: settings
-		category: "TabataSettings"
-		property int workTime
-		property int tabatasCount
-		property int tabataRelaxTime
-	}
+	property int intervalMilliseconds: 0;
+	property int timeMilliseconds: 0; /// In milliseconds
+	property int cycleCount: 0;
 
-	property int currentState: -1
-	property int timeSeconds: 0
-	property int cycleCount: -1
+	property int defaultCycleCount: 8;
+	property int tabatasCount: 1;
+	property int tabataRelaxTime: 0; /// In seconds
 
-	property int defaultCycleCount: -1
-	property int tabatasCount: -1
-	property int tabataRelaxTime: -1
+	readonly property int cycleWorkTime: 20; /// In seconds
+	readonly property int cycleRelaxTime: 10; /// In seconds
 
-	readonly property int cycleWorkTime: 20
-	readonly property int cycleRelaxTime: 10
+	property var stateNames: [
+		"preparation",
+		"tabata_begin",
+		"cycle_begin",
+		"cycle_relax",
+		"cycle_end",
+		"tabata_relax",
+		"tabata_end",
+		"end"
+	]
 
 	Timer {
 		id: timer
-		interval: 1000; running: false; repeat: true
+		interval: 20;
+		running: false;
+		repeat: true;
 		onTriggered: {
-			timeSeconds = timeSeconds - 1
-			if (timeSeconds <= 0)
+			timeMilliseconds = timeMilliseconds - timer.interval
+			if (timeMilliseconds <= 0)
 			{
-				nextState();
+				state = stateNames[stateNames.indexOf(state) + 1];
+				intervalMilliseconds = timeMilliseconds;
+				console.log(Qt.formatDateTime(new Date(), "mm:ss:zzz"));
 			}
 		}
 	}
 
-	function nextState() {
-		switch (currentState) {
-		case TabataState.CycleWork:
-			currentState = TabataState.CycleRelax
-			break;
-		case TabataState.CycleRelax:
-			if (cycleCount > 0) {
-				currentState = TabataState.CycleWork
-			}
-			else {
-				currentState = TabataState.TabataRelax
-			}
-			break;
-		case TabataState.TabataRelax:
-			if (tabatasCount > 0) {
-				currentState = TabataState.CycleWork
-			}
-			else {
-				currentState = TabataState.TabataEnd;
-			}
-			break;
-		case TabataState.Preparation:
-			currentState = TabataState.CycleWork;
-			break;
-		}
-	}
-
-	onCurrentStateChanged: {
-		switch (currentState) {
-		case TabataState.CycleWork:
-			console.log("cycle count", cycleCount, "tabatas count", tabatasCount)
-			cycleCount = cycleCount - 1
-			timeSeconds = cycleWorkTime
-			break;
-		case TabataState.CycleRelax:
-			timeSeconds = cycleRelaxTime
-			break;
-		case TabataState.TabataRelax:
-			cycleCount = defaultCycleCount
-			tabatasCount = tabatasCount - 1
-			timeSeconds = tabatasCount <= 0 ? 0 : tabataRelaxTime * 60
-			if (timeSeconds <= 0) {
-				nextState()
-			}
-			break;
-		case TabataState.TabataEnd:
-			timer.stop()
-			busy.running = false
-			break
-		case TabataState.Preparation:
-			cycleCount = defaultCycleCount
-			timeSeconds = cycleRelaxTime
-			break
-		}
-	}
-
-	Item {
-		anchors.top: parent.top
-		anchors.bottom: timeLabel.bottom
-		anchors.horizontalCenter: parent.horizontalCenter
+	ColumnLayout {
+		anchors.fill: parent;
 
 		Label {
 			id: stateLabel
-			anchors.horizontalCenter: parent.horizontalCenter
-			anchors.verticalCenter: parent.verticalCenter
+			font.pointSize: 30
 			Layout.alignment: Qt.AlignCenter
-			Layout.fillWidth: true
+			anchors.bottom: timeLabel.top;
+			anchors.top: parent.top
+		}
 
-			text: {
-				switch (currentState) {
-				case TabataState.CycleWork:
-					return "Работа"
-				case TabataState.CycleRelax:
-					return "Отдых"
-				case TabataState.TabataRelax:
-					return "Передышка"
-				case TabataState.TabataEnd:
-					return "Конец"
-				case TabataState.Preparation:
-					return "Подготовка"
-				}
-				return "";
+		Item {
+			id: timeLabel
+			anchors.centerIn: parent
+			width: Math.min(window.width, window.height) / 2;
+			height: width;
+
+			Label {
+				anchors.centerIn: parent;
+				text: ("%1").arg(Math.round((timeMilliseconds + 499) / 1000))
+				font.pointSize: 70
 			}
-			font.pointSize: 24
+
+			LoadCircle {
+				anchors.fill: parent;
+				from: 0;
+				to: intervalMilliseconds;
+				value: timeMilliseconds;
+			}
 		}
 	}
 
-	Item {
-		id: timeLabel
-		anchors.centerIn: parent
-
-		implicitWidth: Math.max(busy ? busy.implicitWidth + leftPadding + rightPadding : 0,
-									   contentItem.implicitWidth + leftPadding + rightPadding)
-		implicitHeight: Math.max(busy ? busy.implicitHeight + topPadding + bottomPadding: 0,
-										contentItem.implicitHeight + topPadding + bottomPadding)
-		baselineOffset: contentItem.y + contentItem.baselineOffset
-
-		Label {
-			text: timeSeconds
-			font.pointSize: 36
-			anchors.centerIn: parent
-		}
-
-		BusyIndicator {
-			id: busy
-			running: true
-			anchors.centerIn: parent
-			width: 100
-			height: 100
-		}
+	Component.onCompleted: {
+		state = "preparation";
 	}
 
-	Component.onCompleted:
-	{
-		defaultCycleCount = settings.workTime * 2
-		tabatasCount = settings.tabatasCount
-		tabataRelaxTime = settings.tabataRelaxTime
-		currentState = TabataState.Preparation
-		timer.start()
-	}
+	states: [
+		State {
+			name: "preparation";
+
+			StateChangeScript {
+				id: preparationChangeScript
+				script: {
+					defaultCycleCount = settings.workTime * 2;
+					tabatasCount = settings.tabatasCount
+					tabataRelaxTime = settings.tabataRelaxTime
+
+					timeMilliseconds = cycleRelaxTime * 1000;
+					intervalMilliseconds = timeMilliseconds
+				}
+			}
+			PropertyChanges {
+				target: stateLabel;
+				text: qsTr("Preparation");
+			}
+			onCompleted: {
+				timer.start();
+			}
+		},
+		State {
+			name: "tabata_begin";
+
+			StateChangeScript {
+				id: tabataBeginChangeScript
+				script: {
+					tabatasCount = tabatasCount - 1;
+					cycleCount = defaultCycleCount;
+				}
+			}
+
+			onCompleted: {
+				state = "cycle_begin";
+			}
+		},
+		State {
+			name: "cycle_begin";
+
+			StateChangeScript {
+				id: cycleBeginChangeScript
+				script: {
+					cycleCount = cycleCount - 1;
+					timeMilliseconds = cycleWorkTime * 1000;
+				}
+			}
+			PropertyChanges {
+				target: stateLabel;
+				text: qsTr("Cycle begin");
+			}
+		},
+		State {
+			name: "cycle_relax";
+
+			StateChangeScript {
+				id: cycleRelaxChangeScript
+				script: {
+					timeMilliseconds = cycleRelaxTime * 1000;
+				}
+			}
+			PropertyChanges {
+				target: stateLabel;
+				text: qsTr("Cycle relax");
+			}
+		},
+		State {
+			name: "cycle_end";
+			onCompleted: {
+				if (cycleCount <= 0)
+					state = "tabata_relax";
+				else
+					state = "cycle_begin"
+			}
+		},
+		State {
+			name: "tabata_relax";
+
+			StateChangeScript {
+				id: tabataRelaxChangeScript
+				script: {
+					timeMilliseconds = tabataRelaxTime * 1000 * 60;
+				}
+			}
+			PropertyChanges {
+				target: stateLabel;
+				text: qsTr("Tabata relax");
+			}
+
+			onCompleted: {
+				if (tabataRelaxTime == 0)
+					state = "tabata_end";
+			}
+		},
+		State {
+			name: "tabata_end";
+
+			onCompleted: {
+				if (tabatasCount <= 0)
+					state = "end";
+				else
+					state = "tabata_begin"
+			}
+		},
+		State {
+			name: "end";
+			PropertyChanges {
+				target: stateLabel;
+				text: qsTr("End");
+			}
+			onCompleted: {
+				timer.stop();
+			}
+		}
+
+	]
 }

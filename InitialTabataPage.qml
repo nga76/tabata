@@ -5,14 +5,7 @@ import QtQuick.Controls.Material 2.0
 import Qt.labs.settings 1.0
 
 Pane {
-
-	Settings {
-		id: settings
-		category: "TabataSettings"
-		property int workTime : 4
-		property int tabatasCount : 1
-		property int tabataRelaxTime : 1
-	}
+	objectName: qsTr("Tabata")
 
 	ColumnLayout {
 		anchors.fill: parent

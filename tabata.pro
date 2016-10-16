@@ -20,10 +20,14 @@ DISTFILES += \
     TabataRunPage.qml \
     Header.qml \
     LayoutStretch.qml \
-    MyDrawer.qml \
     RoundColoredButton.qml \
     TabataSpinBox.qml \
     InitialTabataPage.qml \
+    LoadCircle.qml \
+    TabataDrawer.qml \
+    SettingsPage.qml \
+    LabelTitle.qml \
+    LabelSubtitle.qml
 
 HEADERS += \
     tabatastate.h
