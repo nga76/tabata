@@ -26,7 +26,7 @@ Drawer {
 
 		model: ListModel {
 			id: listModel
-			ListElement { title: qsTr("Settings"); source: "qrc:/SettingsPage.qml" }
+			ListElement { title: qsTr("Settings"); source: "qrc:/qml/pages/SettingsPage.qml" }
 		}
 
 		ScrollIndicator.vertical: ScrollIndicator { }

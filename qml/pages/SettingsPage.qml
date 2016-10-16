@@ -3,6 +3,8 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.1
 import QtQuick.Controls.Material 2.0
 
+import "../common"
+
 Page {
 	objectName: qsTr("Settings")
 
@@ -15,7 +17,7 @@ Page {
 			text: qsTr("Theme")
 		}
 		RowLayout {
-			LabelSubtitle {
+			LabelSubheading {
 				leftPadding: 10
 				wrapMode: Text.WordWrap
 				text: qsTr("Dark Theme")
@@ -38,7 +40,7 @@ Page {
 			text: qsTr("Colors")
 		}
 		RowLayout {
-			LabelSubtitle {
+			LabelSubheading {
 				id: labelPrimary
 				topPadding: 6
 				leftPadding: 10
@@ -54,7 +56,7 @@ Page {
 				MouseArea {
 					anchors.fill: parent
 					onClicked: {
-//						navPane.pushPrimaryColorPage()
+						window.openPage("qrc:/qml/pages/PrimaryColorPage.qml");
 					}
 				}
 			}
@@ -63,7 +65,7 @@ Page {
 			height: 6
 		}
 		RowLayout {
-			LabelSubtitle {
+			LabelSubheading {
 				id: labelAccent
 				topPadding: 6
 				leftPadding: 10
@@ -79,7 +81,7 @@ Page {
 				MouseArea {
 					anchors.fill: parent
 					onClicked: {
-//						navPane.pushAccentColorPage()
+						window.openPage("qrc:/qml/pages/AccentColorPage.qml");
 					}
 				}
 			}

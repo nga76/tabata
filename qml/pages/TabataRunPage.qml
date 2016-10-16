@@ -3,6 +3,8 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Material 2.0
 
+import "../common"
+
 Page {
 
 	objectName: qsTr("Work")
@@ -65,7 +67,7 @@ Page {
 			Label {
 				anchors.centerIn: parent;
 				text: ("%1").arg(Math.round((timeMilliseconds + 499) / 1000))
-				font.pointSize: 70
+				font.pointSize: 80
 			}
 
 			LoadCircle {

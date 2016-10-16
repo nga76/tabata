@@ -10,8 +10,13 @@ ApplicationWindow {
 	width: 480;
 	height: 640;
 
-	property int fontSizeTitle: 18;
-	property int fontSizeSubtitle: 12;
+	property int fontSizeHeadline: 24
+	property int fontSizeTitle: 20
+	property int fontSizeSubheading: 16
+
+	/// Material settings
+	property color primaryColor: Material.primary;
+	property color accentColor: Material.accent;
 
 	property bool isDarkTheme: Material.theme == Material.Dark;
 
@@ -29,7 +34,7 @@ ApplicationWindow {
 	StackView {
 		id: stackView;
 		anchors.fill: parent;
-		initialItem: InitialTabataPage {}
+		initialItem: "qrc:/qml/pages/InitialTabataPage.qml"
 	}
 
 	Settings {
@@ -50,7 +55,14 @@ ApplicationWindow {
 	}
 
 	function tabataRun() {
-		openPage("qrc:/TabataRunPage.qml");
+		openPage("qrc:/qml/pages/TabataRunPage.qml");
+	}
+
+	function popOnePage() {
+		drawer.unselectPage(stackView.currentItem.objectName);
+		if (stackView.pop()) {
+			header.titleValue = stackView.currentItem.objectName;
+		}
 	}
 
 	onClosing: {

@@ -2,10 +2,11 @@ QT += qml quick quickcontrols2
 
 CONFIG += c++11
 
-SOURCES += main.cpp \
-    tabatastate.cpp
+SOURCES += main.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += qml.qrc \
+    images.qrc \
+    translations.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -15,19 +16,12 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-DISTFILES += \
-    tabata.qml \
-    TabataRunPage.qml \
-    Header.qml \
-    LayoutStretch.qml \
-    RoundColoredButton.qml \
-    TabataSpinBox.qml \
-    InitialTabataPage.qml \
-    LoadCircle.qml \
-    TabataDrawer.qml \
-    SettingsPage.qml \
-    LabelTitle.qml \
-    LabelSubtitle.qml
+lupdate_only {
+    SOURCES += \
+	qml/* \
+	qml/common/* \
+	qml/pages/* \
+	qml/common/LabelHeadline.qml
+}
 
-HEADERS += \
-    tabatastate.h
+TRANSLATIONS += translations/tabata_ru_RU.ts

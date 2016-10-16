@@ -1,11 +1,19 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.0
+import QtQuick.Layouts 1.1
 import QtQuick.Controls.Material 2.0
-import Qt.labs.settings 1.0
+
+import "../common"
 
 Pane {
 	objectName: qsTr("Tabata")
+
+	property int workTimeFrom: 4
+	property int workTimeTo: 20
+	property int tabatasCountFrom: 1
+	property int tabatasCountTo: 10
+	property int relaxTimeFrom: 0
+	property int relaxTimeTo: 5
 
 	ColumnLayout {
 		anchors.fill: parent
@@ -14,47 +22,47 @@ Pane {
 
 		Label {
 			id: workTimeLabel;
-			text: "Длительность";
-			font.pointSize: 20;
+			text: qsTr("Duration, min");
 			Layout.alignment: Qt.AlignCenter;
+			font.pixelSize: fontSizeTitle
 		}
 
 		TabataSpinBox {
 			id: workTimeValue;
 			value: settings.workTime;
-			from: 4;
-			to: 20;
+			from: workTimeFrom;
+			to: workTimeTo;
 			onValueChanged: settings.workTime = value
 		}
 
 		Label {
 			id: tabatsCountLabel;
-			text: "Табаты";
-			font.pointSize: 20;
+			text: qsTr("Tabata count");
 			Layout.alignment: Qt.AlignCenter;
+			font.pixelSize: fontSizeTitle
 		}
 
 		TabataSpinBox {
 			id: tabatsCountValue;
 			value: settings.tabatasCount;
-			from: 1;
-			to: 10;
+			from: tabatasCountFrom;
+			to: tabatasCountTo;
 			onValueChanged: settings.tabatasCount = value
 		}
 
 		Label {
 			id: relaxTimeLabel;
-			text: "Передышка";
-			font.pointSize: 20;
+			text: qsTr("Relax, min");
 			Layout.alignment: Qt.AlignCenter;
+			font.pixelSize: fontSizeTitle
 		}
 
 		TabataSpinBox {
 			id: relaxTimeValue
 			value: settings.tabataRelaxTime;
-			from: 0;
-			to: 5
-			onValueChanged: settings.tabataRelaxTime = value
+			from: relaxTimeFrom;
+			to: relaxTimeTo;
+			onValueChanged: settings.tabataRelaxTime = value;
 		}
 
 		LayoutStretch {}
