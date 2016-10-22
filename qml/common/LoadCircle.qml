@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls.Material 2.0
+import QtQuick.Controls 2.0
 
 Item {
 	id: loadCircle;
@@ -7,8 +8,8 @@ Item {
 	property color unprogressBorderColor:  Material.color(Material.LightBlue, Material.Shade50);
 	property color progressBorderColor: Material.color(Material.Dark, Material.Shade500);
 	property int borderWidth: 4;
-
 	property int duration: 100;
+	signal stopped();
 
 	Rectangle {
 		id: circle;
@@ -21,6 +22,14 @@ Item {
 		border.color: unprogressBorderColor;
 		border.width: borderWidth;
 		color: circleColor;
+	}
+
+	Label {
+		id:timeLabel;
+		property real time: 20000;
+		anchors.centerIn: parent;
+		text: Math.round((time + 499) / 1000);
+		font.pointSize: 80;
 	}
 
 	Rectangle {
@@ -42,33 +51,40 @@ Item {
 
 	ParallelAnimation {
 		id: animation;
-		PropertyAnimation {
+		RotationAnimation {
 			target: dot.parent;
-			property: "rotation";
+			from: 270;
 			to: -90;
 			duration: loadCircle.duration;
 		}
+
+		NumberAnimation {
+			target: timeLabel;
+			property: "time";
+			from: loadCircle.duration;
+			to: 0;
+			duration: loadCircle.duration;
+			easing.type: Easing.Linear;
+		}
 		SequentialAnimation {
-			PropertyAnimation{
+			RotationAnimation {
 				target: leftCircleSide;
-				property: "rotation";
+				from: 180;
 				to: 0;
 				duration: loadCircle.duration / 2;
 			}
-			PropertyAnimation {
+			RotationAnimation {
 				target: rightCircleSide;
-				property: "rotation";
+				from: 180;
 				to:0;
 				duration: loadCircle.duration / 2;
 			}
 		}
 
-		onRunningChanged: {
-			if (!running) {
-				dot.parent.rotation = 270;
-				leftCircleSide.rotation = 180;
-				rightCircleSide.rotation = 180;
-			}
+		onStopped: {
+			leftCircleSide.rotation = 180;
+			rightCircleSide.rotation = 180;
+			loadCircle.stopped();
 		}
 	}
 
@@ -127,8 +143,19 @@ Item {
 	}
 
 	function start(_duration) {
-		animation.stop();
 		duration = _duration;
 		animation.start();
+	}
+
+	function pause() {
+		animation.pause();
+	}
+
+	function resume() {
+		animation.resume();
+	}
+
+	function isPaused() {
+		return animation.paused;
 	}
 }

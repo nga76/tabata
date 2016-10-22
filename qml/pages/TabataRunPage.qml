@@ -6,7 +6,7 @@ import QtQuick.Controls.Material 2.0
 import "../common"
 
 Page {
-
+	id: runPage;
 	objectName: qsTr("Work");
 
 	property int timeMilliseconds: 0; /// In milliseconds
@@ -17,6 +17,8 @@ Page {
 
 	readonly property int cycleWorkTime: 20; /// In seconds
 	readonly property int cycleRelaxTime: 10; /// In seconds
+
+	property bool running: false;
 
 	property var stateNames: [
 		"preparation",
@@ -29,51 +31,59 @@ Page {
 		"end"
 	]
 
-	Timer {
-		id: timer
-		interval: 1000;
-		running: false;
-		repeat: true;
-		onTriggered: {
-			timeMilliseconds = timeMilliseconds - timer.interval
-			if (timeMilliseconds <= 0)
-			{
-				state = stateNames[stateNames.indexOf(state) + 1];
-				progressBar.start(timeMilliseconds);
-				asdasd.stop();
-				asdasd.start();
-			}
-			console.log(Qt.formatDateTime(new Date(), "mm:ss:zzz"));
+	Item {
+		anchors {
+			left: parent.left;
+			right: parent.right;
+			top: parent.top;
+			bottom: progressBar.top;
 		}
-	}
-
-	ColumnLayout {
-		anchors.fill: parent;
 
 		Label {
 			id: stateLabel
 			font.pointSize: fontSizeHeadline
-			Layout.alignment: Qt.AlignCenter
-			anchors.bottom: timeLabel.top;
-			anchors.top: parent.top
+			anchors.centerIn: parent
+		}
+	}
+
+
+	LoadCircle {
+		id: progressBar
+		Layout.alignment: Qt.AlignCenter
+		anchors.centerIn: parent
+		width: Math.min(appWindow.width, appWindow.height) / 2;
+		height: width;
+
+		onStopped: {
+			if (runPage.running) {
+				nextState();
+				start(timeMilliseconds);
+			}
+		}
+	}
+
+	Item {
+		anchors {
+			left: parent.left;
+			right: parent.right;
+			top: progressBar.bottom;
+			bottom: parent.bottom;
 		}
 
-		Item {
-			id: timeLabel
-			anchors.centerIn: parent
-			width: Math.min(appWindow.width, appWindow.height) / 2;
-			height: width;
-
-			Label {
-				id:aaaa;
-				anchors.centerIn: parent;
-				text: Math.round(timeMilliseconds / 1000);
-				font.pointSize: 80;
-			}
-
-			LoadCircle {
-				id: progressBar
-				anchors.fill: parent;
+		RoundColoredButton {
+			id: pauseButton
+			anchors.centerIn: parent;
+			imageSource: progressBar.isPaused() ? "qrc:/images/play.png" : "qrc:/images/pause.png"
+			radius: 30
+			color: pauseButton.down ? Material.color(Material.Dark, Material.Shade300) :
+									  Material.color(Material.Dark, Material.Shade400)
+			onClicked: {
+				if (progressBar.isPaused()) {
+					progressBar.resume();
+				}
+				else {
+				progressBar.pause();
+				}
 			}
 		}
 	}
@@ -91,10 +101,7 @@ Page {
 				script: {
 					tabatasCount = settings.tabatasCount;
 					tabataRelaxTime = settings.tabataRelaxTime;
-
 					timeMilliseconds = cycleRelaxTime * 1000;
-					progressBar.start(timeMilliseconds);
-					asdasd.start();
 				}
 			}
 			PropertyChanges {
@@ -102,7 +109,8 @@ Page {
 				text: qsTr("Preparation");
 			}
 			onCompleted: {
-				timer.start();
+				runPage.running = true;
+				progressBar.start(timeMilliseconds);
 			}
 		},
 		State {
@@ -152,7 +160,7 @@ Page {
 		State {
 			name: "cycle_end";
 			onCompleted: {
-					state = cycleCount <= 0 ? "tabata_relax" : "cycle_begin";
+				state = cycleCount <= 0 ? "tabata_relax" : "cycle_begin";
 			}
 		},
 		State {
@@ -178,7 +186,7 @@ Page {
 			name: "tabata_end";
 
 			onCompleted: {
-					state = tabatasCount <= 0 ? "end" : "tabata_begin";
+				state = tabatasCount <= 0 ? "end" : "tabata_begin";
 			}
 		},
 		State {
@@ -188,9 +196,12 @@ Page {
 				text: qsTr("End");
 			}
 			onCompleted: {
-				timer.stop();
+				running = false;
 			}
 		}
-
 	]
+
+	function nextState() {
+		state = stateNames[stateNames.indexOf(state) + 1];
+	}
 }
