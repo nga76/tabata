@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>music/tabata_song.mp3</file>
+    </qresource>
+</RCC>

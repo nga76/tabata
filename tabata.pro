@@ -7,7 +7,8 @@ SOURCES += main.cpp \
 
 RESOURCES += qml.qrc \
     images.qrc \
-    translations.qrc
+    translations.qrc \
+    music.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -29,3 +30,6 @@ TRANSLATIONS += translations/tabata_ru_RU.ts
 
 HEADERS += \
     application.h
+
+DISTFILES += \
+    qml/common/CurrentSetLabel.qml

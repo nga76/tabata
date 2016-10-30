@@ -108,7 +108,7 @@
 <context>
     <name>DrawerNavigationBar</name>
     <message>
-        <location filename="../qml/DrawerNavigationBar.qml" line="29"/>
+        <location filename="../qml/DrawerNavigationBar.qml" line="32"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
@@ -278,31 +278,31 @@ Tap on Color Rectangle to edit</source>
     <name>TabataRunPage</name>
     <message>
         <location filename="../qml/pages/TabataRunPage.qml" line="10"/>
-        <source>Work</source>
-        <translation>Работа</translation>
+	<source>Workout</source>
+	<translation>Работа</translation>
     </message>
     <message>
-        <location filename="../qml/pages/TabataRunPage.qml" line="103"/>
+        <location filename="../qml/pages/TabataRunPage.qml" line="109"/>
         <source>Preparation</source>
         <translation>Подготовка</translation>
     </message>
     <message>
-        <location filename="../qml/pages/TabataRunPage.qml" line="136"/>
+        <location filename="../qml/pages/TabataRunPage.qml" line="143"/>
         <source>Cycle begin</source>
         <translation>Максимум работы</translation>
     </message>
     <message>
-        <location filename="../qml/pages/TabataRunPage.qml" line="150"/>
+        <location filename="../qml/pages/TabataRunPage.qml" line="157"/>
         <source>Cycle relax</source>
         <translation>Передышка</translation>
     </message>
     <message>
-        <location filename="../qml/pages/TabataRunPage.qml" line="173"/>
+        <location filename="../qml/pages/TabataRunPage.qml" line="177"/>
         <source>Tabata relax</source>
         <translation>Отдохни</translation>
     </message>
     <message>
-        <location filename="../qml/pages/TabataRunPage.qml" line="195"/>
+        <location filename="../qml/pages/TabataRunPage.qml" line="196"/>
         <source>End</source>
         <translation>Конец</translation>
     </message>

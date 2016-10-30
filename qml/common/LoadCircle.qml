@@ -26,9 +26,9 @@ Item {
 
 	Label {
 		id:timeLabel;
-		property real time: 20000;
+		property int time;
 		anchors.centerIn: parent;
-		text: Math.round((time + 499) / 1000);
+		text: (time / 1000).toFixed(0)
 		font.pointSize: 80;
 	}
 
@@ -42,10 +42,8 @@ Item {
 			width: borderWidth * 3;
 			height: borderWidth * 3;
 			radius: width / 2;
-			clip: true;
 			x: circle.width / 2 - borderWidth * 2;
 			color: progressBorderColor;
-			antialiasing: true;
 		}
 	}
 
@@ -82,6 +80,7 @@ Item {
 		}
 
 		onStopped: {
+			console.log(Qt.formatDateTime(new Date(), "hh:mm:ss:zzz"));
 			leftCircleSide.rotation = 180;
 			rightCircleSide.rotation = 180;
 			loadCircle.stopped();
@@ -108,8 +107,6 @@ Item {
 				color: circleColor;
 				border.color: progressBorderColor;
 				border.width: borderWidth;
-				smooth: true;
-				antialiasing: true;
 			}
 		}
 	}
@@ -136,8 +133,6 @@ Item {
 				color: circleColor;
 				border.color: progressBorderColor;
 				border.width: borderWidth;
-				antialiasing: true;
-				smooth: true;
 			}
 		}
 	}

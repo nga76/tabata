@@ -2,6 +2,7 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Material 2.0
+import QtMultimedia 5.5
 import Qt.labs.settings 1.0
 
 ApplicationWindow {
@@ -93,8 +94,8 @@ ApplicationWindow {
 	StackView {
 		id: stackView;
 		anchors.fill: parent;
-		anchors.margins: 10
-		initialItem: "qrc:/qml/pages/InitialTabataPage.qml"
+		anchors.margins: 10;
+		initialItem: "qrc:/qml/pages/InitialTabataPage.qml";
 
 		onCurrentItemChanged: {
 			if (currentItem.objectName) {
@@ -106,9 +107,9 @@ ApplicationWindow {
 	Settings {
 		id: settings;
 		category: "TabataSettings";
-		property int workTime;
-		property int tabatasCount;
-		property int tabataRelaxTime;
+		property int workTime: 4;
+		property int tabataCount: 1;
+		property int tabataRelaxTime: 0;
 		property int primaryPaletteIndex: 4;
 		property int accentPaletteIndex: 2;
 		property int isDarkTheme: Material.System === Material.Dark;
@@ -125,6 +126,7 @@ ApplicationWindow {
 	}
 
 	function tabataRun() {
+//		music.play();
 		openPage("qrc:/qml/pages/TabataRunPage.qml");
 	}
 
@@ -142,6 +144,15 @@ ApplicationWindow {
 		settings.accentPaletteIndex = index;
 		accentPalette = app.accentPalette(index);
 	}
+
+//	Audio {
+//		id: music;
+//		source: "qrc:/music/tabata_song.mp3"
+
+//		onError: {
+//			console.log(errorString);
+//		}
+//	}
 
 	onClosing: {
 		close.accepted = !popOnePage();

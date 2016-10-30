@@ -10,8 +10,8 @@ Pane {
 
 	property int workTimeFrom: 4
 	property int workTimeTo: 20
-	property int tabatasCountFrom: 1
-	property int tabatasCountTo: 10
+	property int tabataCountFrom: 1
+	property int tabataCountTo: 10
 	property int relaxTimeFrom: 0
 	property int relaxTimeTo: 5
 
@@ -20,11 +20,11 @@ Pane {
 
 		LayoutStretch {}
 
-		Label {
+		LabelTitle {
 			id: workTimeLabel;
 			text: qsTr("Duration, min");
 			Layout.alignment: Qt.AlignCenter;
-			font.pointSize: fontSizeTitle
+			Layout.fillWidth: false
 		}
 
 		TabataSpinBox {
@@ -35,26 +35,26 @@ Pane {
 			onValueChanged: settings.workTime = value
 		}
 
-		Label {
+		LabelTitle {
 			id: tabatsCountLabel;
 			text: qsTr("Tabata count");
 			Layout.alignment: Qt.AlignCenter;
-			font.pointSize: fontSizeTitle
+			Layout.fillWidth: false
 		}
 
 		TabataSpinBox {
 			id: tabatsCountValue;
-			value: settings.tabatasCount;
-			from: tabatasCountFrom;
-			to: tabatasCountTo;
-			onValueChanged: settings.tabatasCount = value
+			value: settings.tabataCount;
+			from: tabataCountFrom;
+			to: tabataCountTo;
+			onValueChanged: settings.tabataCount = value
 		}
 
-		Label {
+		LabelTitle {
 			id: relaxTimeLabel;
 			text: qsTr("Relax, min");
 			Layout.alignment: Qt.AlignCenter;
-			font.pointSize: fontSizeTitle
+			Layout.fillWidth: false
 		}
 
 		TabataSpinBox {

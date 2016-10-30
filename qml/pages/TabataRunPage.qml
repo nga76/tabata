@@ -7,16 +7,18 @@ import "../common"
 
 Page {
 	id: runPage;
-	objectName: qsTr("Work");
+	objectName: qsTr("Workout");
 
 	property int timeMilliseconds: 0; /// In milliseconds
 	property int cycleCount: 0;
 
-	property int tabatasCount: 1;
+	property int tabataCount: 1;
 	property int tabataRelaxTime: 0; /// In seconds
 
-	readonly property int cycleWorkTime: 20; /// In seconds
-	readonly property int cycleRelaxTime: 10; /// In seconds
+	readonly property int cycleWorkTime: 20; /// In seconds (20 seconds)
+	readonly property int cycleRelaxTime: 10; /// In seconds (10 seconds)
+	readonly property int defaultCycleCount: settings.workTime * 2;
+	readonly property int defaultTabataCount: settings.tabataCount;
 
 	property bool running: false;
 
@@ -62,6 +64,56 @@ Page {
 		}
 	}
 
+	CurrentSetLabel {
+		id: cycleCountIndicator
+
+		//		5
+		//		anchors.horizontalCenter: progressBar.left;
+		//		anchors.bottom: progressBar.top;
+		//		4
+		//		anchors.right: progressBar.left;
+		//		anchors.verticalCenter: progressBar.top;
+		//		3
+		//		anchors.horizontalCenter: progressBar.left;
+		//		anchors.top: progressBar.bottom;
+		//		2
+		//		anchors.right: progressBar.left;
+		//		anchors.verticalCenter: progressBar.bottom;
+		//		1
+		anchors.verticalCenter: progressBar.verticalCenter;
+		anchors.left: parent.left;
+
+		width: (appWindow.width - progressBar.width) / 2 - 20;
+		setsCount: defaultCycleCount;
+		currentSet: cycleCount;
+		text: qsTr("Cycles");
+	}
+
+	CurrentSetLabel {
+		id: tabataCountIndicator
+
+		//		5
+		//		anchors.horizontalCenter: progressBar.right;
+		//		anchors.bottom: progressBar.top;
+		//		4
+		//		anchors.left: progressBar.right;
+		//		anchors.verticalCenter: progressBar.top;
+		//		3
+		//		anchors.horizontalCenter: progressBar.right;
+		//		anchors.top: progressBar.bottom;
+		//		2
+		//		anchors.left: progressBar.right;
+		//		anchors.verticalCenter: progressBar.bottom;
+		//		1
+		anchors.verticalCenter: progressBar.verticalCenter;
+		anchors.right: parent.right;
+
+		width: (appWindow.width - progressBar.width) / 2 - 20;
+		setsCount: defaultTabataCount;
+		currentSet: tabataCount;
+		text: qsTr("Tabatas");
+	}
+
 	Item {
 		anchors {
 			left: parent.left;
@@ -78,11 +130,15 @@ Page {
 			color: pauseButton.down ? Material.color(Material.Dark, Material.Shade300) :
 									  Material.color(Material.Dark, Material.Shade400)
 			onClicked: {
+				if (runPage.state == "end") {
+					return;
+				}
+
 				if (progressBar.isPaused()) {
 					progressBar.resume();
 				}
 				else {
-				progressBar.pause();
+					progressBar.pause();
 				}
 			}
 		}
@@ -99,9 +155,10 @@ Page {
 			StateChangeScript {
 				id: preparationChangeScript
 				script: {
-					tabatasCount = settings.tabatasCount;
+					tabataCount = defaultTabataCount;
 					tabataRelaxTime = settings.tabataRelaxTime;
 					timeMilliseconds = cycleRelaxTime * 1000;
+					cycleCount = defaultCycleCount;
 				}
 			}
 			PropertyChanges {
@@ -119,8 +176,7 @@ Page {
 			StateChangeScript {
 				id: tabataBeginChangeScript
 				script: {
-					tabatasCount = tabatasCount - 1;
-					cycleCount = settings.workTime * 2;
+					cycleCount = defaultCycleCount;
 				}
 			}
 
@@ -134,7 +190,6 @@ Page {
 			StateChangeScript {
 				id: cycleBeginChangeScript
 				script: {
-					cycleCount = cycleCount - 1;
 					timeMilliseconds = cycleWorkTime * 1000;
 				}
 			}
@@ -160,6 +215,7 @@ Page {
 		State {
 			name: "cycle_end";
 			onCompleted: {
+				cycleCount = cycleCount - 1;
 				state = cycleCount <= 0 ? "tabata_relax" : "cycle_begin";
 			}
 		},
@@ -186,7 +242,8 @@ Page {
 			name: "tabata_end";
 
 			onCompleted: {
-				state = tabatasCount <= 0 ? "end" : "tabata_begin";
+				tabataCount = tabataCount - 1;
+				state = tabataCount <= 0 ? "end" : "tabata_begin";
 			}
 		},
 		State {

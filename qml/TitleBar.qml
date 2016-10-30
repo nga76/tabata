@@ -13,26 +13,26 @@ ToolBar {
 		}
 
 		ToolButton {
-			visible: !backButton.visible
-			focusPolicy: Qt.NoFocus
+			visible: !backButton.visible;
+			focusPolicy: Qt.NoFocus;
 			Image {
-				anchors.centerIn: parent
-				source: "qrc:/images/" + iconOnPrimaryFolder + "/drawer.png"
+				anchors.centerIn: parent;
+				source: "qrc:/images/" + iconOnPrimaryFolder + "/drawer.png";
 			}
 			onClicked: {
-				appWindow.openNavigationBar()
+				appWindow.openNavigationBar();
 			}
 		}
 		ToolButton {
-			id: backButton
-			focusPolicy: Qt.NoFocus
-			visible: false /// need case for stackView.depth > 1
+			id: backButton;
+			focusPolicy: Qt.NoFocus;
+			visible: stackView.depth > 1;
 			Image {
-				anchors.centerIn: parent
-				source: "qrc:/images/"+iconOnPrimaryFolder+"/arrow_back.png"
+				anchors.centerIn: parent;
+				source: "qrc:/images/"+iconOnPrimaryFolder+"/arrow_back.png";
 			}
 			onClicked: {
-				// stackView pop item
+				appWindow.popOnePage();
 			}
 		} // backButton
 

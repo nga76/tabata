@@ -44,5 +44,15 @@
         <file>images/pause@3x.png</file>
         <file>images/pause@4x.png</file>
         <file>images/pause@5x.png</file>
+        <file>images/lightTheme/settings.png</file>
+        <file>images/lightTheme/settings@2x.png</file>
+        <file>images/lightTheme/settings@3x.png</file>
+        <file>images/lightTheme/settings@4x.png</file>
+        <file>images/lightTheme/settings@5x.png</file>
+        <file>images/darkTheme/settings.png</file>
+        <file>images/darkTheme/settings@2x.png</file>
+        <file>images/darkTheme/settings@3x.png</file>
+        <file>images/darkTheme/settings@4x.png</file>
+        <file>images/darkTheme/settings@5x.png</file>
     </qresource>
 </RCC>
