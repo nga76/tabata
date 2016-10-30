@@ -16,5 +16,6 @@
         <file>qml/pages/AccentColorPage.qml</file>
         <file>qml/pages/PrimaryColorPage.qml</file>
         <file>qml/common/CurrentSetLabel.qml</file>
+        <file>qml/pages/AboutTabataPage.qml</file>
     </qresource>
 </RCC>

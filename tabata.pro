@@ -23,13 +23,9 @@ lupdate_only {
 	qml/* \
 	qml/common/* \
 	qml/pages/* \
-	qml/common/LabelHeadline.qml
 }
 
 TRANSLATIONS += translations/tabata_ru_RU.ts
 
 HEADERS += \
     application.h
-
-DISTFILES += \
-    qml/common/CurrentSetLabel.qml

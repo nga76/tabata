@@ -23,7 +23,7 @@ Drawer {
 				Image {
 					id: delegateIcon;
 					anchors.verticalCenter: parent.verticalCenter;
-					source: "qrc:/images/"+iconFolder+"/settings.png";
+					source: "qrc:/images/"+iconFolder+"/" + model.icon;
 					height: delegateText.height;
 					width: height;
 				}
@@ -46,7 +46,8 @@ Drawer {
 
 		model: ListModel {
 			id: listModel
-			ListElement { title: qsTr("Settings"); source: "qrc:/qml/pages/SettingsPage.qml" }
+			ListElement { title: qsTr("Settings"); source: "qrc:/qml/pages/SettingsPage.qml"; icon: "settings.png"; }
+			ListElement { title: qsTr("About tabata"); source: "qrc:/qml/pages/AboutTabataPage.qml"; icon: "about.png"; }
 		}
 	}
 

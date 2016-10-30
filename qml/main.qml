@@ -2,7 +2,6 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Material 2.0
-import QtMultimedia 5.5
 import Qt.labs.settings 1.0
 
 ApplicationWindow {
@@ -126,7 +125,6 @@ ApplicationWindow {
 	}
 
 	function tabataRun() {
-//		music.play();
 		openPage("qrc:/qml/pages/TabataRunPage.qml");
 	}
 
@@ -144,15 +142,6 @@ ApplicationWindow {
 		settings.accentPaletteIndex = index;
 		accentPalette = app.accentPalette(index);
 	}
-
-//	Audio {
-//		id: music;
-//		source: "qrc:/music/tabata_song.mp3"
-
-//		onError: {
-//			console.log(errorString);
-//		}
-//	}
 
 	onClosing: {
 		close.accepted = !popOnePage();

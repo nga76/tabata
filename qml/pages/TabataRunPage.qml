@@ -2,6 +2,7 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Material 2.0
+import QtMultimedia 5.5
 
 import "../common"
 
@@ -136,11 +137,41 @@ Page {
 
 				if (progressBar.isPaused()) {
 					progressBar.resume();
+					music.play();
 				}
 				else {
 					progressBar.pause();
+					music.pause();
 				}
 			}
+		}
+	}
+
+
+	Audio {
+		id: music;
+		source: "qrc:/music/tabata_song.mp3"
+
+		onError: {
+			console.log(errorString);
+		}
+
+		function playWorkout() {
+			stop();
+			seek(cycleRelaxTime * 1000);
+			play();
+		}
+
+		function playPreparation() {
+			stop();
+			seek(0);
+			play();
+		}
+
+		function playRelax() {
+			stop();
+			seek((cycleRelaxTime + cycleWorkTime) * 1000);
+			play();
 		}
 	}
 
@@ -168,6 +199,7 @@ Page {
 			onCompleted: {
 				runPage.running = true;
 				progressBar.start(timeMilliseconds);
+				music.playPreparation();
 			}
 		},
 		State {
@@ -197,6 +229,10 @@ Page {
 				target: stateLabel;
 				text: qsTr("Cycle begin");
 			}
+
+			onCompleted: {
+				music.playWorkout();
+			}
 		},
 		State {
 			name: "cycle_relax";
@@ -210,6 +246,10 @@ Page {
 			PropertyChanges {
 				target: stateLabel;
 				text: qsTr("Cycle relax");
+			}
+
+			onCompleted: {
+				music.playRelax();
 			}
 		},
 		State {
